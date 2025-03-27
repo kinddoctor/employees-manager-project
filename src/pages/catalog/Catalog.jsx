@@ -13,13 +13,13 @@ export default function Catalog() {
   const dispatch = useDispatch();
   const employees = useSelector(employeesSelectors.selectAll);
 
-  useEffect(
-    () =>
+  useEffect(() => {
+    const requestData = () =>
       fetch('employees.json')
         .then((response) => response.json())
-        .then((data) => dispatch(addEmployees(data))),
-    [],
-  );
+        .then((data) => dispatch(addEmployees(data)));
+    requestData();
+  }, []);
 
   return (
     <div className={cx('content')}>
