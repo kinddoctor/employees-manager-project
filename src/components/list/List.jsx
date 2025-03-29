@@ -2,22 +2,22 @@ import styles from './List.module.scss';
 import classnames from 'classnames/bind';
 const cx = classnames.bind(styles);
 
-export default function List({ list }) {
+export default function List({ list, mobileDevice }) {
   return (
     <table className={cx('table')}>
       <thead>
         <tr>
-          <th>Имя</th>
-          <th>Должность</th>
-          <th>Телефон</th>
+          <th className={cx({ mobileDevice: mobileDevice })}>Имя</th>
+          <th className={cx({ mobileDevice: mobileDevice })}>Должность</th>
+          <th className={cx({ mobileDevice: mobileDevice })}>Телефон</th>
         </tr>
       </thead>
       <tbody>
         {list.map(({ id, name, phone, role }) => (
           <tr key={id} className={cx('list-item')}>
-            <td className={cx('name')}>{name}</td>
-            <td className={cx('role')}>{role}</td>
-            <td className={cx('phone')}>{phone}</td>
+            <td className={cx('name', { mobileDevice: mobileDevice })}>{name}</td>
+            <td className={cx('role', { mobileDevice: mobileDevice })}>{role}</td>
+            <td className={cx('phone', { mobileDevice: mobileDevice })}>{phone}</td>
           </tr>
         ))}
       </tbody>

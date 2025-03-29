@@ -1,5 +1,5 @@
-import SidePanel from './sidePanel/SidePanel';
+import BurgerButton from './burgerButton/BurgerButton';
 
 export default function Playground() {
-  return <SidePanel />;
+  return <BurgerButton />;
 }

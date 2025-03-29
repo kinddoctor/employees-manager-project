@@ -1,10 +1,11 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { addEmployee, addEmployees, updateEmployee } from '../../store/employeesSlice';
+import { addEmployees } from '../../store/employeesSlice';
 import { employeesSelectors } from '../../store/employeesSlice';
+import { selectDeviceSize } from '../../store/selectors';
 import SidePanel from '../../components/sidePanel/SidePanel';
 import List from '../../components/list/List';
-
+import BurgerButton from '../../components/burgerButton/BurgerButton';
 import styles from './Catalog.module.scss';
 import classnames from 'classnames/bind';
 const cx = classnames.bind(styles);
@@ -12,6 +13,8 @@ const cx = classnames.bind(styles);
 export default function Catalog() {
   const dispatch = useDispatch();
   const employees = useSelector(employeesSelectors.selectAll);
+  const deviceSize = useSelector(selectDeviceSize);
+  const [forcedShowing, toggleForcedShowing] = useState(false);
 
   useEffect(() => {
     const requestData = () =>
@@ -22,12 +25,21 @@ export default function Catalog() {
   }, []);
 
   return (
-    <div className={cx('content')}>
-      <div className={cx('aside')}>
+    <div className={cx('catalog')}>
+      <div className={cx('hide', { show: deviceSize === 'mobile' && !forcedShowing })}>
+        <BurgerButton handleClick={() => toggleForcedShowing(!forcedShowing)} />
+      </div>
+      <div className={cx('aside', { hide: deviceSize === 'mobile' && !forcedShowing })}>
+        <button
+          onClick={() => toggleForcedShowing(!forcedShowing)}
+          className={cx('btn-close', { show: deviceSize === 'mobile' && forcedShowing })}
+        >
+          X
+        </button>
         <SidePanel />
       </div>
-      <div className={cx('main')}>
-        <List list={employees} />
+      <div className={cx('main', { smallDevice: deviceSize !== 'desktop' })}>
+        <List mobileDevice={deviceSize === 'mobile'} list={employees} />
       </div>
     </div>
   );
