@@ -1,12 +1,7 @@
-# React + Vite
+## Менеджер сотрудников
+Небольшое приложение, отображающее сотрудников из базы данных
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+&#9989; Адаптивная резиновая верстка вплоть до 460px\
+&#9989; Возможность сортировки по имени и дате рождения
 
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Посмотреть в деле можно [тут](employees-manager-project.vercel.app)
