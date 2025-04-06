@@ -11,7 +11,7 @@ export default function SidePanel() {
     <div className={cx('sidePanel')}>
       <SortingPanel />
       <FilterPanel />
-      <Button size={'big'} text="Добавить нового сотрудника" type="submit" />
+      {/* <Button size={'big'} text="Добавить нового сотрудника" type="submit" /> */}
     </div>
   );
 }

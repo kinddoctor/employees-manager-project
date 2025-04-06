@@ -1,4 +1,5 @@
 import { setSortingFunc } from '../../store/UISlice';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import Button from '../button/Button';
 import styles from './SortingPanel.module.scss';
@@ -7,22 +8,31 @@ const cx = classnames.bind(styles);
 
 export default function SortingPanel() {
   const dispatch = useDispatch();
+  const [activeButton, setActiveButton] = useState(null);
 
   return (
     <div className={cx('panel')}>
       <span className={cx('title')}>Сортировать по:</span>
       <div className={cx('button-group')}>
         <Button
-          handleClick={() => dispatch(setSortingFunc('sortByName'))}
+          handleClick={() => {
+            setActiveButton('name');
+            dispatch(setSortingFunc('sortByName'));
+          }}
           size="medium"
           text="имени"
           type="button"
+          wasActivated={activeButton === 'name'}
         />
         <Button
-          handleClick={() => dispatch(setSortingFunc('sortByBirthday'))}
+          handleClick={() => {
+            setActiveButton('birthday');
+            dispatch(setSortingFunc('sortByBirthday'));
+          }}
           size="medium"
-          text="дате рождения"
+          text="дате рождения - сначала опытные"
           type="button"
+          wasActivated={activeButton === 'birthday'}
         />
       </div>
     </div>
