@@ -2,11 +2,15 @@ import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { addEmployees } from '../../store/employeesSlice';
 import { employeesSelectors } from '../../store/employeesSlice';
-import { selectDeviceSize, selectSortingFunc } from '../../store/selectors';
+import {
+  selectDeviceSize,
+  selectSortingFunc,
+  selectFilters,
+} from '../../store/selectors';
 import SidePanel from '../../components/sidePanel/SidePanel';
 import List from '../../components/list/List';
 import BurgerButton from '../../components/burgerButton/BurgerButton';
-import * as utilsFunction from '../../utils/Common';
+import * as utilsFunctions from '../../utils/Common';
 import styles from './Catalog.module.scss';
 import classnames from 'classnames/bind';
 const cx = classnames.bind(styles);
@@ -17,8 +21,11 @@ export default function Catalog() {
   const [forcedShowing, toggleForcedShowing] = useState(false);
 
   const employees = useSelector(employeesSelectors.selectAll);
-  const sortingFunc = utilsFunction[useSelector(selectSortingFunc)];
+  const sortingFunc = utilsFunctions[useSelector(selectSortingFunc)];
   const sortedEmployees = sortingFunc ? sortingFunc(employees) : employees;
+
+  const filters = useSelector(selectFilters);
+  const filteredEmployees = utilsFunctions.filterEmployees(sortedEmployees, filters);
 
   useEffect(() => {
     const requestData = () =>
@@ -43,7 +50,7 @@ export default function Catalog() {
         <SidePanel />
       </div>
       <div className={cx('main', { smallDevice: deviceSize !== 'desktop' })}>
-        <List mobileDevice={deviceSize === 'mobile'} list={sortedEmployees} />
+        <List mobileDevice={deviceSize === 'mobile'} list={filteredEmployees} />
       </div>
     </div>
   );

@@ -1,3 +1,4 @@
+import dictionary from '../../utils/dictionary.js';
 import styles from './List.module.scss';
 import classnames from 'classnames/bind';
 const cx = classnames.bind(styles);
@@ -16,7 +17,9 @@ export default function List({ list, mobileDevice }) {
         {list.map(({ id, name, phone, role }) => (
           <tr key={id} className={cx('list-item')}>
             <td className={cx('name', { mobileDevice: mobileDevice })}>{name}</td>
-            <td className={cx('role', { mobileDevice: mobileDevice })}>{role}</td>
+            <td className={cx('role', { mobileDevice: mobileDevice })}>
+              {dictionary[role]}
+            </td>
             <td className={cx('phone', { mobileDevice: mobileDevice })}>{phone}</td>
           </tr>
         ))}

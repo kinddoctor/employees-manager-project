@@ -15,11 +15,42 @@ export function sortByBirthday(arr) {
   return data;
 }
 
-// const data = [
-//   { name: 'при', birthday: '06.07.1990' },
-//   { name: 'oпри', birthday: '06.08.1991' },
-//   { name: 'апри', birthday: '06.07.1995' },
-//   { name: 'лпри', birthday: '01.07.1990' },
-// ];
+const fullInclusiveFilter = (data, categoryName, categoryOptions) => {
+  const checkedOptionsValues = categoryOptions
+    .filter(({ isChecked }) => isChecked)
+    .map(({ value }) => value);
+  if (checkedOptionsValues.length === 0) return [];
+  return data.filter((employee) => checkedOptionsValues.includes(employee[categoryName]));
+};
 
-// console.log(JSON.stringify(sortByBirthday(data)));
+const partiallyInclusiveFilter = (data, categoryName, categoryOptions) => {
+  const checkedOptionsValues = categoryOptions
+    .filter(({ isChecked }) => isChecked)
+    .map(({ value }) => value);
+  const defaultOptionValue = categoryOptions.filter((option) => option.default)[0].value;
+  if (checkedOptionsValues.length === 0) {
+    return data.filter((employee) => employee[categoryName] === defaultOptionValue);
+  }
+  return data.filter(
+    (employee) =>
+      checkedOptionsValues.includes(employee[categoryName]) ||
+      employee[categoryName] === defaultOptionValue,
+  );
+};
+
+const filterFunctions = {
+  fullInclusive: fullInclusiveFilter,
+  partiallyInclusive: partiallyInclusiveFilter,
+};
+
+export const filterEmployees = (employees, filters) => {
+  const { categories, options } = filters;
+  let result;
+  categories.forEach(({ name, id, type }) => {
+    const currentCategoryOptions = options.filter(({ categoryId }) => categoryId === id);
+    result = result
+      ? filterFunctions[type](result, name, currentCategoryOptions)
+      : filterFunctions[type](employees, name, currentCategoryOptions);
+  });
+  return result;
+};
